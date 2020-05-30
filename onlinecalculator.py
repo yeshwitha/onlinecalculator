@@ -17,14 +17,22 @@ def index():
 
         elif operand in ['div','DIV','/','divide','DIVIDE'] :
             a = redirect("http://127.0.0.1:5000/div")
-        else operand in ['=','&','|','>','<','%','!']:
+        elif operand in ['=','&','|','>','<','%','!']:
             a = redirect("http://127.0.0.1:5000/error")
+        else :
+            a = print('error')
         return a
 
     return render_template("intro.html")
 
 @app.route('/add',methods=["GET","POST"])
 def add():
+    if request.method=="POST":
+        A=request.form['firstnumber']
+        B=request.form['lastnumber']
+        x=Fraction(A)
+        y=Fraction(B)
+        C=(x)+(y)
         D=str(C).split('/')
         if len(D) == 2:
             E=int(D[0])/int(D[1])
@@ -104,5 +112,8 @@ def div():
             return "Your result is %s \n" % G[0]
 
     return render_template("home.html")
+@app.route('/error',methods=["GET","POST"])
+def error():
+    return render_template("error.html")
 if __name__ == '__main__':
    app.run(debug = True)
